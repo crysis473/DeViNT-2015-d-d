@@ -61,5 +61,6 @@ public class Animation {
     public int getSpeed() {
         return speed;
     }
+    // C'est un exemple de commentaire yahoo.
 
 }

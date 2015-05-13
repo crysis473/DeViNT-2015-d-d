@@ -52,4 +52,5 @@ public class Car extends Piece {
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }
+    // Le menu changes evidement !!!
 }

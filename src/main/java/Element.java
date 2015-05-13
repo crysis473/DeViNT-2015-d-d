@@ -47,6 +47,9 @@ public class Element extends Piece {
        } catch (Exception e) {
            e.printStackTrace();
        }
+        /**
+         * Heaaah
+         */
     }
 
     public Rectangle getBounds() {
