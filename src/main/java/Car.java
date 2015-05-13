@@ -53,4 +53,5 @@ public class Car extends Piece {
         return new Rectangle(x, y, width, height);
     }
     // Le menu changes evidement !!!
+    //kanban.
 }
