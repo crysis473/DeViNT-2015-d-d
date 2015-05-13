@@ -43,7 +43,7 @@ public class Car extends Piece {
         g.drawRect((int)glass.getX(), (int)glass.getY(), 2, 2);
         g.drawRect((int)door.getX(), (int)door.getY(), 2, 2);
         g.drawRect((int)light.getX(), (int)light.getY(), 2, 2);*/
-
+//mlk,a
     // klj,odfij
 
     }
