@@ -50,6 +50,8 @@ public class Element extends Piece {
         /**
          * Heaaah
          */
+
+        // coco mamoselle.
     }
 
     public Rectangle getBounds() {
