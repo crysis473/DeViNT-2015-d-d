@@ -6,12 +6,11 @@ import java.awt.event.MouseMotionListener;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Toolkit;
 
 
 public class Menu extends JPanel implements MouseListener, MouseMotionListener {
-    public Rectangle playButton = new Rectangle(Game.WIDTH/2 + 120, 150, 340, 50);
-    public Rectangle helpButton = new Rectangle(Game.WIDTH/2 + 120, 250, 400, 50);
+    public Rectangle cuisineButton = new Rectangle(Game.WIDTH/2 + 120, 150, 340, 50);
+    public Rectangle voitureButton = new Rectangle(Game.WIDTH/2 + 120, 250, 400, 50);
     public Rectangle quitButton = new Rectangle(Game.WIDTH/2 + 120, 350, 170, 50);
     public Rectangle differences = new Rectangle(Game.WIDTH/2 + 120, 450, 420, 50);
     public JFrame frame = null;
@@ -44,12 +43,12 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
         g.drawString("Paul L'assembleur", 500/2, 100);
 
         g.setFont(fnt1);
-        //Drawing the playButton.
-        g.drawString("Recette Cuisine", playButton.x + 19, playButton.y + 30);
-        g2d.draw(playButton);
+        //Drawing the
+        g.drawString("Recette Cuisine", cuisineButton.x + 19, cuisineButton.y + 30);
+        g2d.draw(cuisineButton);
         //Drawing the help button.
-        g.drawString("Construction voiture", helpButton.x + 19, helpButton.y + 30);
-        g2d.draw(helpButton);
+        g.drawString("Construction voiture", voitureButton.x + 19, voitureButton.y + 30);
+        g2d.draw(voitureButton);
         //Drawing the quitButton.
         g.drawString("Aventure", quitButton.x + 9, quitButton.y + 30);
         g2d.draw(quitButton);
@@ -66,14 +65,14 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
     
     public void mouseClicked(MouseEvent e) {
 
-        if(playButton.contains(e.getPoint())) {
+        if(cuisineButton.contains(e.getPoint())) {
             ConstructionGame2 game = new ConstructionGame2();
             game.start();
             frame.setVisible(false);
             frame.dispose();
             System.out.println("ok");
         }
-        if(helpButton.contains(e.getPoint())) {
+        if(voitureButton.contains(e.getPoint())) {
             ConstructionGame game = new ConstructionGame();
             game.start();
             frame.setVisible(false);
@@ -111,7 +110,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
     
     public void mouseMoved(MouseEvent e) {
-        if(playButton.contains(e.getPoint()) || helpButton.contains(e.getPoint()) || quitButton.contains(e.getPoint()) || differences.contains(e.getPoint())) {
+        if(cuisineButton.contains(e.getPoint()) || voitureButton.contains(e.getPoint()) || quitButton.contains(e.getPoint()) || differences.contains(e.getPoint())) {
             setCursor(new Cursor(Cursor.HAND_CURSOR));
         } else {
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

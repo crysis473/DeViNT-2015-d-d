@@ -25,7 +25,7 @@ public class FoodElement extends Food {
     public void loadImage() {
         try {
             if (type.equals("apple")) {
-                image = loader.loadImage("..\\ressource\\apple.png\"");
+                image = loader.loadImage("..\\ressource\\apple.png");
             }
 
             else if (type.equals("bo")) {

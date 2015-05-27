@@ -7,14 +7,14 @@ public class Window2 {
 
     public Window2(int w, int h, String title, Canvas game) {
         game.setPreferredSize(new Dimension(w, h));
-        game.setMaximumSize(new Dimension(w, h));
-        game.setMinimumSize(new Dimension(w, h));
+        //game.setMaximumSize(new Dimension(w, h));
+        //game.setMinimumSize(new Dimension(w, h));
         this.game = game;
         frame = new JFrame(title);
         frame.add(this.game);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
+        frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 

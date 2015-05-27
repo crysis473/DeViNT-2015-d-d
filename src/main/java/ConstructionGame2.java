@@ -10,7 +10,7 @@ import java.awt.image.BufferStrategy;
  */
 public class ConstructionGame2 extends Canvas implements Runnable, MouseMotionListener, MouseListener {
 
-    public static int HEIGHT = 700, WIDTH = 900;
+    public static int HEIGHT = 800, WIDTH = 1200;
     public boolean running;
     private Thread thread;
     public Food[] foods = new Food[14];
@@ -29,7 +29,7 @@ public class ConstructionGame2 extends Canvas implements Runnable, MouseMotionLi
     public Menu menu = new Menu();
 
     public synchronized void start() {
-        window2= new Window2(ConstructionGame.WIDTH, ConstructionGame.HEIGHT, "TestGame", this);
+        window2= new Window2(ConstructionGame2.WIDTH, ConstructionGame2.HEIGHT, "TestGame", this);
         if (running)
             this.run();
 
