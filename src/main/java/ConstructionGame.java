@@ -10,7 +10,7 @@ import java.awt.image.BufferStrategy;
  */
 public class ConstructionGame extends Canvas implements Runnable, MouseMotionListener, MouseListener {
 
-    public static int HEIGHT = 700, WIDTH = 1200;
+    public static int HEIGHT = 800, WIDTH = 1200;
     public boolean running;
     private Thread thread;
     public Piece[] pieces = new Piece[10];
@@ -23,9 +23,12 @@ public class ConstructionGame extends Canvas implements Runnable, MouseMotionLis
     public String titre = "Paul l'assembleur";
     public boolean presqueEnd = false;
     public Window2 window2 = null;
-
-
-
+    public Rectangle rec = new Rectangle(990 , 470 - 400, 150, 35);
+    public Rectangle recQuitter = new Rectangle(990, 600, 150, 35);
+    public String endMessage = " ";
+    public String fin = " ";
+    public boolean finCliqued = false;
+    public Menu menu = new Menu();
 
     public synchronized void start() {
         window2= new Window2(ConstructionGame.WIDTH, ConstructionGame.HEIGHT, "TestGame", this);
@@ -46,6 +49,17 @@ public class ConstructionGame extends Canvas implements Runnable, MouseMotionLis
         }*/
     }
 
+    public void checkInPlace() {
+        int n = 0;
+        for (int i = 0; i < 5; i++) {
+                if (pieces[i].isInPlace == true)
+                    n++;
+        }
+        if(n == 5)
+            fin = "Fin";
+        System.out.println(n);
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
         if (state.equals("car")) {
@@ -58,26 +72,27 @@ public class ConstructionGame extends Canvas implements Runnable, MouseMotionLis
             }
             System.out.println("x -> " + e.getX() + ", y -> " + e.getY());
         }
-        if (state.equals("recipe")) {
-            for (int i = 0; i < foods.length; i++) {
-                if (e != null && foods[i] != null) {
-                    if (foods[i].getBounds().contains(e.getPoint())) {
-                        foods[i].isClicked = true;
-                    }
+            if( !fin.equals(" ") && rec.contains(e.getPoint())) {
+                System.out.println(finCliqued);
+                if(score > 40) {
+                    endMessage = "Excenllent !!";
                 }
+                else if(score <= 40 && score >20)
+                    endMessage = "Bien !";
+                else if(score <= 20 && score >= 0)
+                    endMessage = "Moyen.";
+                else if(score < 0)
+                    endMessage = "Perdu !";
+                finCliqued = true;
             }
-            System.out.println("x -> " + e.getX() + ", y -> " + e.getY());
 
-            if (foods[2].getBounds().contains(e.getPoint())) {
-                foods[2] = new FoodElement(10, 275, "sliced_apple", ElementId.FoodElement);
-                foods[2].loadImage();
-                foods[2].isClicked = true;
-                foods[2].isPeeled = true;
-            }
+        if(recQuitter.contains(e.getPoint())) {
+            menu.start();
+            window2.frame.setVisible(false);
+            window2.frame.dispose();
         }
-        if(state.equals("menu")) {
-            //TODO
-        }
+
+
     }
 
     @Override
@@ -90,7 +105,6 @@ public class ConstructionGame extends Canvas implements Runnable, MouseMotionLis
                     }
                 }
             }
-
             if (pieces[5].getBounds().contains(pieces[0].wheel1)) {
                 pieces[5].x = (int) pieces[0].wheel1.getX() - 54;
                 pieces[5].y = (int) pieces[0].wheel1.getY() - 56;
@@ -157,113 +171,7 @@ public class ConstructionGame extends Canvas implements Runnable, MouseMotionLis
                 }
             }
         }
-        if (state.equals("recipe")) {
-            for (int i = 0; i < foods.length; i++) {
-                if (foods[i] != null) {
-                    if (foods[i].getBounds().contains(e.getPoint())) {
-                        foods[i].isClicked = false;
-                    }
-                }
-            }
-            if(foods[1].getBounds().contains(foods[5].getPoint())) {
-                foods[5].x = -100; foods[5].y = -100;
-                Food f = foods[1];
-                foods[1] = new FoodElement(f.x, f.y, "bol_plein", ElementId.Car );
-                foods[1].loadImage();
-                if(f.fixedFarine == true) {
-                    foods[1].fixedFarine = true;
-                }
-                if(foods[1].fixedEgg == false)
-                    score = score + 10;
-                foods[1].fixedEgg = true;
-                foods[5].isInPlace = true;
-                if(foods[1].fixedEgg == true && foods[1].fixedFarine == true) {
-                    foods[1].id = ElementId.FoodElement;
-                }
-            } else {
-                if (foods[5].x != 10 && foods[5].isInPlace == false) {
-                    foods[5].x = 10;
-                    foods[5].y = 10;
-                    score = score - 5;
-                }
-            }
-            if(foods[1].getBounds().contains(foods[6].getPoint())) {
-                foods[6].x = -150; foods[6].y = -150;
-                if(foods[1].fixedFarine == false)
-                    score = score + 10;
-                foods[1].fixedFarine = true;
-                foods[6].isInPlace = true;
-                if(foods[1].fixedEgg == true && foods[1].fixedFarine == true) {
-                    foods[1].id = ElementId.FoodElement;
-                }
-            } else {
-                if (foods[6].x != 10 && foods[6].isInPlace == false) {
-                    foods[6].x = 10;
-                    foods[6].y = 115;
-                    score = score - 5;
-                }
-            }
-            if(foods[2].type.equals("sliced_apple") && foods[0].isFull == true && foods[0].getBounds().contains(foods[2].getPoint()) && foods[2].isPeeled) {
-                System.out.println("pate");
-                foods[2].x = -300; foods[2].y = -300;
-                Food f = foods[0];
-                presqueEnd = true;
-                //foods[0] = new FoodElement(f.x, f.y, "mold_pate_bol_apple", ElementId.Car );
-                //foods[0].loadImage();
-                System.out.println(foods[0].isPate);
-                if(foods[0].isAppeled == false) {
-                    score = score + 10;
-                    foods[0].isAppeled = true;
-                }
-                foods[2].isInPlace = true;
-                foods[1].isInPlace = true;
-            } else {
-                if (foods[2].x != 10 && foods[2].isInPlace == false) {
-                    foods[2].x = 10;
-                    foods[2].y = 275;
-                    score = score - 5;
-                }
-            }
-            if(foods[0].getBounds().contains(foods[4].getPoint())) {
-                foods[4].x = -300; foods[4].y = -300;
-                Food f = foods[0];
-                foods[0] = new FoodElement(f.x, f.y, "mold_pate", ElementId.Car );
-                foods[0].loadImage();
-                System.out.println(foods[0].isPate);
-                if(foods[0].isPate == false) {
-                    score = score + 10;
-                    foods[0].isPate = true;
-                }
-                foods[4].isInPlace = true;
-                System.out.println(foods[0].isPate);
-            } else {
-                if (foods[4].x != 10 && foods[4].isInPlace == false) {
-                    foods[4].x = 10;
-                    foods[4].y = 400;
-                    score = score - 5;
-                }
-            }
-            if(foods[1].getBounds().contains(foods[0].getPoint()) && foods[0].isPate) {
-                System.out.println("pate");
-                foods[1].x = -300; foods[1].y = -300;
-                Food f = foods[0];
-                foods[0] = new FoodElement(f.x, f.y, "mold_pate_bol", ElementId.Car );
-                foods[0].loadImage();
-                System.out.println(foods[0].isFull);
-                if(foods[0].isFull == false) {
-                    score = score + 10;
-                    foods[0].isFull = true;
-                }
-                foods[0].isInPlace = true;
-                System.out.println(foods[0].isPate);
-            } else {
-                if (foods[1].x != 240 && foods[1].isInPlace == false && foods[1].id == ElementId.FoodElement) {
-                    foods[1].x = 240;
-                    foods[1].y = 100;
-                    score = score - 5;
-                }
-            }
-        }
+        checkInPlace();
     }
 
 
@@ -391,18 +299,41 @@ public class ConstructionGame extends Canvas implements Runnable, MouseMotionLis
             Graphics g = bs.getDrawGraphics();
             Graphics2D g2d = (Graphics2D)g;
             if(state.equals("car")) {
-            g.setColor(Color.CYAN);
-            g.fillRect(0, 0, WIDTH + 300, HEIGHT);
-            for (int i = 0; i < 6; i++) {
-                pieces[i].render(g);
+                g.setColor(Color.CYAN);
+                g.fillRect(0, 0, WIDTH + 300, HEIGHT);
+                for (int i = 0; i < 6; i++) {
+                    pieces[i].render(g);
             }
-            g.drawString("SCORE : " + score + "/50", 200, 10);
-            bs.show();
+
+                Font fnt1 = new Font("arial", Font.BOLD, 30);
+                g.setFont(fnt1);
+            g.drawString("SCORE : " + score + "/50", 200, 50);
+                g.setColor(Color.red);
+                g2d.draw(recQuitter);
+                g.setFont(fnt1);
+                g.drawString("QUITER", 995, 625);
+                g.setColor(Color.BLACK);
+                g.drawString(fin, 1000 + 40, 500 - 400);
+                g2d.draw(rec);
+                if(finCliqued == true) {
+                    g.setColor(Color.CYAN);
+                    Font fnt2 = new Font("arial", Font.BOLD, 80);
+                    g.setFont(fnt2);
+                    g.fillRect(0, 0, WIDTH + 300, HEIGHT);
+                    g.setColor(Color.RED);
+                    g.drawString(endMessage, 400, 300);
+                    g.drawString("SCORE : " + score + "/50", 200, 80);
+                    g.setColor(Color.red);
+                    g2d.draw(recQuitter);
+                    g.setFont(fnt1);
+                    g.drawString("QUITER", 995, 625);
+                }
+                bs.show();
             //}
             //System.out.println("Rendering !!");
         }
 
-        if(state.equals("recipe")) {
+        /*if(state.equals("recipe")) {
             g.setColor(Color.CYAN);
             g.fillRect(0, 0, WIDTH + 300, HEIGHT);
             for (int i = 0; i < 7; i++) {
@@ -411,8 +342,11 @@ public class ConstructionGame extends Canvas implements Runnable, MouseMotionLis
                 //}
             }
             g.drawString("SCORE : " + score + "/50", 200, 10);
+            g.setColor(Color.BLACK);
+            g.drawString(fin, 1000, 500);
+            g2d.draw(rec);
             bs.show();
-        }
+        }*/
     }
 
     public void isAlive() {

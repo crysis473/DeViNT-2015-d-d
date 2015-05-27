@@ -27,6 +27,7 @@ public class ConstructionGame2 extends Canvas implements Runnable, MouseMotionLi
     public Rectangle rec = new Rectangle(990 , 470, 150, 35);
     public Rectangle recQuitter = new Rectangle(990, 600, 150, 35);
     public Menu menu = new Menu();
+    public String endMessage = " ";
 
     public synchronized void start() {
         window2= new Window2(ConstructionGame2.WIDTH, ConstructionGame2.HEIGHT, "TestGame", this);
@@ -69,6 +70,14 @@ public class ConstructionGame2 extends Canvas implements Runnable, MouseMotionLi
         if(!four.equals("") && rec.contains(e.getPoint())) {
             fourCliqued = true;
             score = score + 10;
+            if (score > 40) {
+                endMessage = "Excenllent !!";
+            } else if (score <= 40 && score > 20)
+                endMessage = "Bien !";
+            else if (score <= 20 && score >= 0)
+                endMessage = "Moyen.";
+            else if (score < 0)
+                endMessage = "Perdu !";
         }
         if(recQuitter.contains(e.getPoint())) {
             menu.start();
@@ -309,13 +318,13 @@ public class ConstructionGame2 extends Canvas implements Runnable, MouseMotionLi
                 g.setFont(fnt2);
                 g.fillRect(0, 0, WIDTH + 300, HEIGHT);
                 g.setColor(Color.RED);
-                g.drawString("BRAVO !!", 400, 300);
+                g.drawString(endMessage, 400, 300);
                 g.drawString("SCORE : " + score + "/50", 200, 80);
                 FoodElement tarteCuite = new FoodElement(400, 300, "mold_pate_bol_apple", ElementId.Car);
                 tarteCuite.loadImage();
                 tarteCuite.render(g);
             }
-            g.setColor(Color.green);
+            g.setColor(Color.red);
             g2d.draw(recQuitter);
             g.setFont(fnt1);
             g.drawString("QUITER", 995, 625);
